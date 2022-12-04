@@ -7,12 +7,15 @@ export const RecipeList = ({recipes}) => {
       <Box display="flex" gap={10} flexWrap="wrap" justifyContent="center">
         {
           recipes.length !== 0 && (
-            recipes.map(({_id, title, preparationTime, slug}) =>
+            recipes.map(({_id, title, preparationTime, slug, sideDish}) =>
               <RecipeCard
                 key={_id}
                 title={title}
-                preparationTime={preparationTime}
+                preparationTime={
+                preparationTime
+              }
                 slug={slug}
+                sideDish={sideDish}
               />
             )
         )}

@@ -8,6 +8,7 @@ import { NotFoundPage } from './pages/NotFoundPage';
 import { RecipeListPage } from './pages/RecipeListPage';
 import {RecipeDetailPage} from "./pages/RecipeDetailPage";
 import {RecipeInsertFormPage} from "./pages/RecipeInsertFormularPage";
+import {SideDishPage} from "./pages/SideDishPage";
 
 export function App() {
   return (
@@ -20,6 +21,8 @@ export function App() {
             <Route path="/api-test" element={<ApiTestPage />} />
             <Route path="*" element={<NotFoundPage />} />
             <Route path="/recipe-insert" element={<RecipeInsertFormPage />} />
+            <Route path="/side-dish" element={<SideDishPage/>} />
+
           </Routes>
         </AppLayout>
       </ChakraProvider>

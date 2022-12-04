@@ -1,4 +1,5 @@
 import React from 'react'
+import styles from '../components/Styles/GlobalStyles.modules.css'
 import {
   Card,
   CardHeader,
@@ -10,12 +11,12 @@ import {
   Image,
   Stack,
   Heading,
-  ButtonGroup, List
+  ButtonGroup, List, Flex, Box, Spacer
 } from '@chakra-ui/react'
 import PlaceholderImage from "../images/food-placeholder.png";
 import {Link} from "react-router-dom";
 
-export const RecipeCard = ({slug, title, preparationTime}) => {
+export const RecipeCard = ({slug, title, preparationTime, sideDish}) => {
 
   return (
     <Link to={`/recipe/${slug}`}>
@@ -30,11 +31,22 @@ export const RecipeCard = ({slug, title, preparationTime}) => {
             <Heading size='md'>{title}</Heading>
           </Stack>
         </CardBody>
-        <Divider />
+        <Divider/>
         <CardFooter>
-          <Text color='blue.600' fontSize='2xl'>
-            {preparationTime}
-          </Text>
+          <Flex>
+
+            <Box>
+              <Box display={"inline-block"}>
+                <Text color='blue.600' fontSize='2xl'>
+                  {Math.floor(preparationTime/60)}h {preparationTime%60}m
+                </Text>
+              </Box>
+              <Spacer/>
+              <Box display={"inline-block"} float={"right"}>
+                {sideDish ? <Text textAlign={'right'}>{sideDish}</Text> : ""}
+              </Box>
+            </Box>
+          </Flex>
         </CardFooter>
       </Card>
     </Link>

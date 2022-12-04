@@ -37,7 +37,7 @@ export function RecipeListPage() {
       <Heading my={4} color="dodgerblue">
         <Flex>
           <Box>
-            Recepty
+            Recipes
           </Box>
           <Spacer/>
           <Box>
