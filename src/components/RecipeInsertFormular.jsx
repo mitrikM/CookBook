@@ -23,6 +23,7 @@ import axios from "axios";
 import {SearchBar} from "./SearchBar";
 import {useNavigate} from "react-router-dom";
 
+
 export const RecipeInsertForm = ({_ingredients, _sideDishData,}) => {
   const [name, setName] = useState("");
   const [prepTime, setPrepTime] = useState(0);
