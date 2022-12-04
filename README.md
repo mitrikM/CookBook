@@ -1,4 +1,4 @@
-# CN University: Cockbook
+# CN University: Cookbook
 
 This repo is intended as a project seed for CN University assessment workshop - let's create your very own cookbook. It contains basic setup and page layout.
 
