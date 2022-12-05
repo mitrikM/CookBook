@@ -8,9 +8,10 @@ import {SearchBar} from "../components/SearchBar";
 
 export const RecipeInsertFormPage = (SideDishData,IngredientsData) => {
   const [sideDish, setSideDishData] = useState([]);
-  const [ingredients, setIngriedients] = useState([]);
+  const [ingredients, setIngredients] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+
 
   useEffect(() => {
       const getSideDishes = () => {
@@ -34,14 +35,13 @@ export const RecipeInsertFormPage = (SideDishData,IngredientsData) => {
       api
         .get('/recipes/ingredients')
         .then(response =>
-          setIngriedients(response.data))
+          setIngredients(response.data))
         .catch(() => setError(error))
         .finally(() =>
           setIsLoading(false));
     }
     getIngredients();
   }, [])
-
 
 
   return (
