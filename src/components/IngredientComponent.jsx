@@ -11,14 +11,14 @@ import {
 import {SearchBar} from "./SearchBar";
 import {useState} from "react";
 
-export const IngredientComponent = ({ingredients, setIngredients, _setIngredientObject}) => {
+export const IngredientComponent = ({ingredients, setIngredients, setIngredientsObject, ingredientsObject}) => {
 
   let id = 0;
   const [ingredientName, setIngredientName] = useState('');
   const [amount, setAmount] = useState('');
   const [hasGroup, setHasGroup] = useState(false);
   const [amountUnit, setAmountUnit] = useState('');
-  const [ingredientObject, setIngredientObject] = useState([])
+  // const [ingredientObject, setIngredientObject] = useState([])
 
 
   const items = [];
@@ -34,13 +34,14 @@ export const IngredientComponent = ({ingredients, setIngredients, _setIngredient
   )
 
   const handleOnClick = () => {
-    setIngredientObject(
-      [...ingredientObject,
+    setIngredientsObject(
+      [...ingredientsObject,
         {
           _id: ingredientName.id,
           name: ingredientName.name,
           amount: amount,
           amountUnit: amountUnit,
+          isGroup: false
         }
       ]
     )
@@ -55,12 +56,12 @@ export const IngredientComponent = ({ingredients, setIngredients, _setIngredient
         <Text>Ingredients</Text>
         <Box>
           <List id={"list"}>
-            {ingredientObject.map(object => (
+            {ingredientsObject.map(object => (
 
              object.name!==undefined && <ListItem key={id++}>{object.name + ' ' + object.amount + ' ' + object.amountUnit + " "}
                 <button type={"button"} onClick={(e) => {
-                  setIngredientObject(
-                    ingredientObject.filter(i =>
+                  setIngredientsObject(
+                    ingredientsObject.filter(i =>
                       i._id !== object._id
                     )
                   );

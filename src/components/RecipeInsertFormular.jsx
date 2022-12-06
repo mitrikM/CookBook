@@ -31,19 +31,21 @@ export const RecipeInsertForm = ({_ingredients, _sideDishData}) => {
   const [prepTime, setPrepTime] = useState(0);
   const [numOfPortions, setNumOfPortions] = useState(0);
   const [sideDishItem, setSideDishItem] = useState('');
-  const [ingredients,setIngredients]= useState([]);
+  const [ingredients, setIngredients] = useState([]);
+  const [ingredientsObject, setIngredientsObject] = useState([]);
+
   const _date = new Date();
   const navigate = useNavigate();
   const handleSubmit = () => {
-
+    console.log(ingredientsObject);
     axios.post("https://exercise.cngroup.dk/api/recipes", {
-      title: name,
-      preparationTime: prepTime,
-      servingCount: numOfPortions,
- //     ingredients: ingredients,
-      sideDish: sideDishItem.name,
-      slug: name.replaceAll(' ', '-'),
-      lastModifiedDate: _date,
+      "title": name,
+      "preparationTime": prepTime,
+      "servingCount": numOfPortions,
+      "ingredients": ingredientsObject,
+      "sideDish": sideDishItem.name,
+      "slug": name.replaceAll(' ', '-'),
+      "lastModifiedDate": _date,
     })
       .then(
         (response) => {
@@ -55,7 +57,7 @@ export const RecipeInsertForm = ({_ingredients, _sideDishData}) => {
 
   }
   const handleCancelClick = () => {
-    navigate('/');
+    console.log(ingredientsObject);
   }
   return (
     <div>
@@ -105,18 +107,20 @@ export const RecipeInsertForm = ({_ingredients, _sideDishData}) => {
                 </NumberInput>
                 {/*<FormLabel>Side Dish</FormLabel>*/}
                 {/*<SearchBar setChosenItem={setSideDishItem} chosenItem={sideDishItem} data={_sideDishData}/>*/}
-                <SideDishComponent setChosenItem={setSideDishItem} chosenItem={sideDishItem} sideDishData={_sideDishData}/>
+                <SideDishComponent setChosenItem={setSideDishItem} chosenItem={sideDishItem}
+                                   sideDishData={_sideDishData}/>
               </Box>
             </FormControl>
           </Box>
-          <IngredientComponent ingredients={_ingredients} setIngredients={setIngredients} _setIngredientObject={}/>
+          <IngredientComponent ingredients={_ingredients} setIngredients={setIngredients}
+                               ingredientsObject={ingredientsObject} setIngredientsObject={setIngredientsObject}/>
           <Box>
             <Text>Step By Step walk through</Text>
           </Box>
         </Flex>
 
       </form>
-
+      b
     </div>
   )
 }
