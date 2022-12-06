@@ -31,7 +31,7 @@ export const RecipeInsertForm = ({_ingredients, _sideDishData}) => {
   const [prepTime, setPrepTime] = useState(0);
   const [numOfPortions, setNumOfPortions] = useState(0);
   const [sideDishItem, setSideDishItem] = useState('');
-  const [ingredients,setIngredients]= useState([{}]);
+  const [ingredients,setIngredients]= useState([]);
   const _date = new Date();
   const navigate = useNavigate();
   const handleSubmit = () => {
@@ -40,7 +40,7 @@ export const RecipeInsertForm = ({_ingredients, _sideDishData}) => {
       title: name,
       preparationTime: prepTime,
       servingCount: numOfPortions,
-      ingredients: ingredients,
+ //     ingredients: ingredients,
       sideDish: sideDishItem.name,
       slug: name.replaceAll(' ', '-'),
       lastModifiedDate: _date,
@@ -109,7 +109,7 @@ export const RecipeInsertForm = ({_ingredients, _sideDishData}) => {
               </Box>
             </FormControl>
           </Box>
-          <IngredientComponent ingredients={_ingredients} setIngredients={setIngredients}/>
+          <IngredientComponent ingredients={_ingredients} setIngredients={setIngredients} _setIngredientObject={}/>
           <Box>
             <Text>Step By Step walk through</Text>
           </Box>

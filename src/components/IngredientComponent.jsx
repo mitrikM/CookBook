@@ -11,24 +11,18 @@ import {
 import {SearchBar} from "./SearchBar";
 import {useState} from "react";
 
-export const IngredientComponent = ({ingredients, setIngredients}) => {
-  const [ingredient, setIngredient] = useState('');
+export const IngredientComponent = ({ingredients, setIngredients, _setIngredientObject}) => {
+
+  let id = 0;
+  const [ingredientName, setIngredientName] = useState('');
   const [amount, setAmount] = useState('');
   const [hasGroup, setHasGroup] = useState(false);
   const [amountUnit, setAmountUnit] = useState('');
+  const [ingredientObject, setIngredientObject] = useState([])
 
 
   const items = [];
   const arr = Array.from(ingredients);
-
-  const ingredientsObjects = [
-    {
-      name: 'kys',
-    },
-
-
-  ]
-
   arr.map(
     (name, id) => {
       items.push({
@@ -38,17 +32,21 @@ export const IngredientComponent = ({ingredients, setIngredients}) => {
       return items
     }
   )
-  const handleOnClick = (item) => {
-    ingredientsObjects.push(
-      {
-        name: ingredient.name
-      }
+
+  const handleOnClick = () => {
+    setIngredientObject(
+      [...ingredientObject,
+        {
+          _id: ingredientName.id,
+          name: ingredientName.name,
+          amount: amount,
+          amountUnit: amountUnit,
+        }
+      ]
     )
-    console.log(ingredientsObjects);
 
 
   }
-
 
   return (
 
@@ -57,24 +55,39 @@ export const IngredientComponent = ({ingredients, setIngredients}) => {
         <Text>Ingredients</Text>
         <Box>
           <List id={"list"}>
+            {ingredientObject.map(object => (
 
+             object.name!==undefined && <ListItem key={id++}>{object.name + ' ' + object.amount + ' ' + object.amountUnit + " "}
+                <button type={"button"} onClick={(e) => {
+                  setIngredientObject(
+                    ingredientObject.filter(i =>
+                      i._id !== object._id
+                    )
+                  );
+                }}
+                >
+                  delete
+                </button>
+              </ListItem>
+            ))}
           </List>
         </Box>
         <Text>Add an ingratiation</Text>
         <FormControl>
           <InputGroup>
-            <NumberInput max={30} min={1} placeholder={"Amount"}>
-              <NumberInputField/>
+            <NumberInput max={255} min={0} placeholder={"Amount"} name={'Amount'}>
+              <NumberInputField onChange={(e => setAmount(e.target.value))}/>
               <NumberInputStepper>
                 <NumberIncrementStepper/>
                 <NumberDecrementStepper/>
               </NumberInputStepper>
             </NumberInput>
-            <Input type='text' placeholder={"in"}/>
+            <Input type='text' placeholder={"Enter amount unit"} name={'AmountUnit'}
+                   onChange={(e => setAmountUnit(e.target.value))}/>
           </InputGroup>
 
 
-          <SearchBar data={items} setChosenItem={setIngredient}>
+          <SearchBar data={items} setChosenItem={setIngredientName} name={'ingredientsName'}>
 
           </SearchBar>
           <Button onClick={handleOnClick}>Add</Button>
