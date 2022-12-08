@@ -15,7 +15,7 @@ export const IngredientComponent = ({ingredients, setIngredients, setIngredients
 
   let id = 0;
   const [ingredientName, setIngredientName] = useState('');
-  const [amount, setAmount] = useState('');
+  const [amount, setAmount] = useState(null);
   const [hasGroup, setHasGroup] = useState(false);
   const [amountUnit, setAmountUnit] = useState('');
   // const [ingredientObject, setIngredientObject] = useState([])
@@ -37,7 +37,6 @@ export const IngredientComponent = ({ingredients, setIngredients, setIngredients
     setIngredientsObject(
       [...ingredientsObject,
         {
-          _id: ingredientName.id,
           name: ingredientName.name,
           amount: amount,
           amountUnit: amountUnit,
@@ -45,8 +44,6 @@ export const IngredientComponent = ({ingredients, setIngredients, setIngredients
         }
       ]
     )
-
-
   }
 
   return (
@@ -58,7 +55,8 @@ export const IngredientComponent = ({ingredients, setIngredients, setIngredients
           <List id={"list"}>
             {ingredientsObject.map(object => (
 
-             object.name!==undefined && <ListItem key={id++}>{object.name + ' ' + object.amount + ' ' + object.amountUnit + " "}
+              object.name !== undefined &&
+              <ListItem key={id++}>{object.name + ' ' + object.amount + ' ' + object.amountUnit + " "}
                 <button type={"button"} onClick={(e) => {
                   setIngredientsObject(
                     ingredientsObject.filter(i =>

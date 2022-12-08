@@ -24,6 +24,7 @@ import {SearchBar} from "./SearchBar";
 import {useNavigate} from "react-router-dom";
 import {IngredientComponent} from "./IngredientComponent";
 import {SideDishComponent} from "./SideDishComponent";
+import {api} from "../api";
 
 
 export const RecipeInsertForm = ({_ingredients, _sideDishData}) => {
@@ -37,8 +38,7 @@ export const RecipeInsertForm = ({_ingredients, _sideDishData}) => {
   const _date = new Date();
   const navigate = useNavigate();
   const handleSubmit = () => {
-    console.log(ingredientsObject);
-    axios.post("https://exercise.cngroup.dk/api/recipes", {
+    api.post("https://exercise.cngroup.dk/api/recipes", {
       "title": name,
       "preparationTime": prepTime,
       "servingCount": numOfPortions,
@@ -48,9 +48,7 @@ export const RecipeInsertForm = ({_ingredients, _sideDishData}) => {
       "lastModifiedDate": _date,
     })
       .then(
-        (response) => {
-          console.log(response.data);
-        }
+        ()=>{navigate('/')}
       ).catch(
       (error) => console.log(error)
     )
