@@ -17,7 +17,6 @@ import PlaceholderImage from "../images/food-placeholder.png";
 import {Link} from "react-router-dom";
 
 export const RecipeCard = ({slug, title, preparationTime, sideDish}) => {
-
   return (
     <Link to={`/recipe/${slug}`}>
       <Card maxW='sm'>
@@ -38,7 +37,7 @@ export const RecipeCard = ({slug, title, preparationTime, sideDish}) => {
             <Box>
               <Box display={"inline-block"}>
                 <Text color='blue.600' fontSize='2xl'>
-                  {Math.floor(preparationTime/60)}h {preparationTime%60}m
+                  {preparationTime/60!==null || preparationTime/60!==0? Math.floor(preparationTime/60) +' Hod':''} {preparationTime%60!==null?preparationTime%60 + ' min':''}
                 </Text>
               </Box>
               <Spacer/>

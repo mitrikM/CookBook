@@ -3,7 +3,7 @@ import {Button, Flex, flexbox, Heading, Input, Spacer, Text} from '@chakra-ui/re
 import {RecipeCard} from "../components/RecipeCard";
 import {Box} from '@chakra-ui/react';
 import {api} from "../api";
-import {LoadingSpinner} from "../components/LoadingSpinner";
+import {LoadingSpinner} from "../components/AppLayoutStuff/LoadingSpinner";
 import {findReturnStatement} from "eslint-plugin-react/lib/util/ast";
 import {RecipeList} from "../components/RecipeList";
 import {Link} from "react-router-dom";

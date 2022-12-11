@@ -1,8 +1,8 @@
 import {useEffect, useState} from "react";
 import {api} from "../api";
-import {LoadingSpinner} from "../components/LoadingSpinner";
+import {LoadingSpinner} from "../components/AppLayoutStuff/LoadingSpinner";
 import {Box, Text} from "@chakra-ui/react";
-import {SideDishList} from "../components/SideDishList";
+import {SideDishList} from "../components/SideDishStuff/SideDishList";
 
 export const SideDishPage = () => {
   const [sideDish, setSideDish] = useState([])

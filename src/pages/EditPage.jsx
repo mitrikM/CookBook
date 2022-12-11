@@ -1,18 +1,12 @@
-import {RecipeInsertForm} from "../components/RecipeInsertFormular";
+import {useEffect, useState} from "react";
 import {api} from "../api";
 import {LoadingSpinner} from "../components/AppLayoutStuff/LoadingSpinner";
 import {Text} from "@chakra-ui/react";
-import {useEffect, useState} from "react";
-import {SearchBar} from "../components/SearchBar";
-import {useNavigate} from "react-router-dom";
+import {RecipeInsertForm} from "../components/RecipeInsertFormular";
+import {useNavigate, useParams} from "react-router-dom";
 
-export const RecipeInsertFormPage = () => {
-  const [sideDish, setSideDishData] = useState([]);
-  const [ingredients, setIngredients] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [ingredientsObject, setIngredientsObject] = useState ([])
-  const [disable,setDisable]=useState(true);
+export const EditPage = () => {
+  const {slug} = useParams();
   const [tempRecipeObject, setTempRecipeObject] = useState({
     title: "",
     preparationTime: 0,
@@ -23,9 +17,22 @@ export const RecipeInsertFormPage = () => {
     lastModifiedDate: "",
     directions: ""
   });
+  const [sideDish, setSideDishData] = useState([]);
+  const [ingredients, setIngredients] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
+  // const [prepTime, setPrepTime] = useState(0);
+  // const [numOfPortions, setNumOfPortions] = useState(0);
+  // const [sideDishItem, setSideDishItem] = useState("");
+  const [ingredientsObject, setIngredientsObject] = useState([]);
+  // const [directions, setDirections] = useState("");
+  // const [name, setName] = useState("");
   const _date = new Date();
   const navigate = useNavigate();
+
+
+
 
   useEffect(() => {
     const getSideDishes = () => {
@@ -38,7 +45,6 @@ export const RecipeInsertFormPage = () => {
         .finally(() =>
           setIsLoading(false));
     }
-
     getSideDishes();
   }, []);
 
@@ -57,18 +63,39 @@ export const RecipeInsertFormPage = () => {
     getIngredients();
   }, [])
 
+  useEffect(() => {
+    const getRecipeDetail = () => {
+      setIsLoading(true);
+      api.get(`recipes/${slug}`)
+        .then((response) => {
+            setTempRecipeObject(response.data);
+            setIngredientsObject(response.data.ingredients);
+          }
+        )
+
+        .catch((error) => setError(error))
+        .finally(() => setIsLoading(false))
+    }
+    getRecipeDetail()
+  }, [slug])
+  if (isLoading) {
+    return <LoadingSpinner/>
+  }
+  if (error) {
+    return <Text>{error}</Text>
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    api.post("https://exercise.cngroup.dk/api/recipes", {
+    api.post(`https://exercise.cngroup.dk/api/recipes/${tempRecipeObject._id}`, {
       "title": tempRecipeObject.title,
       "preparationTime": tempRecipeObject.preparationTime,
       "servingCount": tempRecipeObject.servingCount,
       "ingredients": ingredientsObject,
       "sideDish": tempRecipeObject.sideDish,
-      "slug": tempRecipeObject.title.replaceAll(' ', '-'),
+      "slug": tempRecipeObject.slug,
       "lastModifiedDate": _date,
       "directions": tempRecipeObject.directions,
-
     })
       .then(
         () => {
@@ -79,22 +106,18 @@ export const RecipeInsertFormPage = () => {
     )
   }
 
-
-  const handleCancelClick =  () => {
-    navigate('/');
+  const handleCancelClick = () => {
   }
-
 
   return (
     <>
       {isLoading && <LoadingSpinner/>}
       {error && <Text>{error}</Text>}
-      <RecipeInsertForm
+   <RecipeInsertForm
         _sideDishData={sideDish}
         _ingredients={ingredients}
         _id={-1}
-        disable={disable}
-        setDisable={setDisable}
+
         ingredientsObject={ingredientsObject}
         setIngredientsObject={setIngredientsObject}
         tempRecipeObject={tempRecipeObject}
@@ -102,7 +125,8 @@ export const RecipeInsertFormPage = () => {
         handleSubmit={handleSubmit}
         handleCancelClick={handleCancelClick}
         setIngredients={setIngredients}
-      />
+
+      />}
     </>
   )
 }

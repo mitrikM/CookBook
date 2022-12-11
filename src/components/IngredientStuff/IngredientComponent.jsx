@@ -8,32 +8,38 @@ import {
   NumberInputStepper,
   Text
 } from "@chakra-ui/react";
-import {SearchBar} from "./SearchBar";
-import {useState} from "react";
+import {SearchBar} from "../SearchBar";
+import {useEffect, useState} from "react";
 
-export const IngredientComponent = ({ingredients, setIngredients, setIngredientsObject, ingredientsObject}) => {
+export const IngredientComponent = ({
+                                      ingredientsData,
+                                      setTempRecipeObject,
+                                      tempRecipeObject,
+                                      ingredientsObject,
+                                      setIngredientsObject
+                                    }) => {
 
   let id = 0;
+
   const [ingredientName, setIngredientName] = useState('');
   const [amount, setAmount] = useState(null);
   const [hasGroup, setHasGroup] = useState(false);
   const [amountUnit, setAmountUnit] = useState('');
-  // const [ingredientObject, setIngredientObject] = useState([])
-
-
+  const [disabled, setDisabled] = useState(true);
   const items = [];
-  const arr = Array.from(ingredients);
+  const arr = Array.from(ingredientsData);
   arr.map(
     (name, id) => {
       items.push({
-        id: id,
+        id: id++,
         name: name
       })
       return items
     }
   )
 
-  const handleOnClick = () => {
+
+  const handleOnAddClick = () => {
     setIngredientsObject(
       [...ingredientsObject,
         {
@@ -44,6 +50,20 @@ export const IngredientComponent = ({ingredients, setIngredients, setIngredients
         }
       ]
     )
+    //   document.querySelector("#ingredientButton").disabled=true
+
+
+  }
+
+  const handleOnSelect = (item) => {
+    setIngredientName(item);
+    // document.querySelector("#ingredientButton").disabled=false
+    setDisabled(false);
+  }
+  const handleOnClear = () => {
+    setIngredientName(null);
+    // document.querySelector("#ingredientButton").disabled=true
+    setDisabled(true)
   }
 
   return (
@@ -53,14 +73,14 @@ export const IngredientComponent = ({ingredients, setIngredients, setIngredients
         <Text>Ingredients</Text>
         <Box>
           <List id={"list"}>
-            {ingredientsObject.map(object => (
+            {ingredientsObject.map((object) => (
 
               object.name !== undefined &&
               <ListItem key={id++}>{object.name + ' ' + object.amount + ' ' + object.amountUnit + " "}
                 <button type={"button"} onClick={(e) => {
                   setIngredientsObject(
                     ingredientsObject.filter(i =>
-                      i._id !== object._id
+                      !(i.name === object.name && i.amount === object.amount && i.amountUnit === object.amountUnit)
                     )
                   );
                 }}
@@ -75,10 +95,14 @@ export const IngredientComponent = ({ingredients, setIngredients, setIngredients
         <FormControl>
           <InputGroup>
             <NumberInput max={255} min={0} placeholder={"Amount"} name={'Amount'}>
-              <NumberInputField onChange={(e => setAmount(e.target.value))}/>
+              <NumberInputField id={'amountField'} onChange={(e => setAmount(e.target.value))}/>
               <NumberInputStepper>
-                <NumberIncrementStepper/>
-                <NumberDecrementStepper/>
+                <NumberIncrementStepper
+                  onClick={(e) => setAmount(document.querySelector("#amountField").value++)}
+                />
+                <NumberDecrementStepper
+                  onClick={(e) => setAmount(document.querySelector("#amountField").value--)}
+                />
               </NumberInputStepper>
             </NumberInput>
             <Input type='text' placeholder={"Enter amount unit"} name={'AmountUnit'}
@@ -86,10 +110,11 @@ export const IngredientComponent = ({ingredients, setIngredients, setIngredients
           </InputGroup>
 
 
-          <SearchBar data={items} setChosenItem={setIngredientName} name={'ingredientsName'}>
+          <SearchBar data={items} handleOnSelect={handleOnSelect} handleOnClear={handleOnClear}
+                     name={'ingredientsName'}>
 
           </SearchBar>
-          <Button onClick={handleOnClick}>Add</Button>
+          <Button id={"ingredientButton"} disabled={disabled} onClick={handleOnAddClick}>Add</Button>
           <Text>Add group</Text>
           <InputGroup>
             <Input type={'text'} placehodler={"New Group"}/>

@@ -1,10 +1,6 @@
 import {ReactSearchAutocomplete} from 'react-search-autocomplete'
-import {useState} from "react";
-import {array} from "prop-types";
 
-export const SearchBar = ({data, setChosenItem}) => {
-
-
+export const SearchBar = ({data, handleOnSelect, handleOnClear,defaultInput=''}) => {
 
 
 
@@ -19,15 +15,16 @@ export const SearchBar = ({data, setChosenItem}) => {
       </>
     )
   }
-  const handleOnSelect = (item) => {
-    setChosenItem({...item, name: item.name});
-  }
+  // const handleOnSelect = (item) => {
+  //   setChosenItem({...item, name: item.name});
+  // }
 
-  const handleOnClear = () => {
-    setChosenItem(null);
-  }
+  // const handleOnClear = () => {
+  //   setChosenItem(null);
+  // }
   return (
     <ReactSearchAutocomplete
+
       items={data}
       onClear={handleOnClear}
       onSearch={handleOnSearch}
@@ -36,7 +33,9 @@ export const SearchBar = ({data, setChosenItem}) => {
       formatResult={formatResult}
       showIcon={false}
       styling={
-        {}
+        {
+          borderRadius: '5%',
+        }
       }
     />
 
